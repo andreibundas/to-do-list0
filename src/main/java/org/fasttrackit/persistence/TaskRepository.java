@@ -25,11 +25,23 @@ public class TaskRepository {
             // preparedStatement - protejeaza baza de date de incercari de atacuri cibernectice
 
             preparedStatement.executeUpdate();
+
+            // SQL Injection -> atac malitios din partea unui utilziator asupr abazei de date
+            // protectia se realizeaza prin: concatenarile inlocuite cu place holders "?" - tin locul descrierii
+
         }
 
-        // SQL Injection -> atac malitios din partea unui utilziator asupr abazei de date
-        // protectia se realizeaza prin: concatenarile inlocuite cu place holders "?" - tin locul descrierii
+    }
 
+    public void deleteTask(long id) throws SQLException {
+        String sql = "DELETE FROM task WHERE ID = ?";
+
+        try(PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+
+            preparedStatement.executeUpdate();
+        }
 
     }
+
 }
