@@ -2,12 +2,11 @@ package org.fasttrackit.transfer;
 
 import java.time.LocalDate;
 
-//DTO (Data Transfer Object)
+// DTO (Data Transfer Object)
 public class CreateTaskRequest {
 
     private String description;
     private LocalDate deadline;
-
 
     public String getDescription() {
         return description;
@@ -33,5 +32,3 @@ public class CreateTaskRequest {
                 '}';
     }
 }
-
-

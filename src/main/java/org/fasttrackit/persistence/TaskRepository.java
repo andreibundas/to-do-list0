@@ -13,57 +13,48 @@ import java.util.List;
 public class TaskRepository {
 
     public void createTask(CreateTaskRequest request) throws SQLException {
+        // preventing SQL injection using placeholders and PreparedStatement
+        String sql = "INSERT INTO task (description, deadline) VALUES (?, ?)";
 
-        // creere Task in Baza de date
-        // preventing SQL Injection using placeholders and _reparedStatement
-        // conexiunea catre baza de date:
-        String sql = "INSERT INTO task (description, deadline) VALUES (?,?)";
+        // try-with-resources
+        try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
 
-        // try with resources
-        try(PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) { // sunt resurse
-            // preparedStatement.close(); -> se apeleaza automat
             preparedStatement.setString(1, request.getDescription());
             preparedStatement.setDate(2, Date.valueOf(request.getDeadline()));
-            // preparedStatement - protejeaza baza de date de incercari de atacuri cibernectice
 
             preparedStatement.executeUpdate();
-
-            // SQL Injection -> atac malitios din partea unui utilziator asupr abazei de date
-            // protectia se realizeaza prin: concatenarile inlocuite cu place holders "?" - tin locul descrierii
-
         }
-
     }
 
     public void deleteTask(long id) throws SQLException {
-        String sql = "DELETE FROM task WHERE ID = ?";
+        String sql = "DELETE FROM task WHERE id = ?";
 
-        try(PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
         }
-
     }
 
     public void updateTask(long id, UpdateTaskRequest request) throws SQLException {
-        String sql = "UPDATE FROM task SET done = ? WHERE ID = ?";
+        String sql = "UPDATE task SET done = ? WHERE id = ?";
 
-        try(PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
-            preparedStatement.setBoolean(1,request.isDone());
+        try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
+            preparedStatement.setBoolean(1, request.isDone());
             preparedStatement.setLong(2, id);
-
 
             preparedStatement.executeUpdate();
         }
     }
 
     public List<Task> getTasks() throws SQLException {
-        String sql = "SELECT id, description, deadline, done FROM task ";
+        String sql = "SELECT id, description, deadline, done FROM task";
 
         List<Task> tasks = new ArrayList<>();
-        try(Statement statement = DatabaseConfiguration.getConnection().createStatement()) {
+
+        try (Statement statement = DatabaseConfiguration.getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
+
             while (resultSet.next()) {
                 Task task = new Task();
                 task.setId(resultSet.getLong("id"));
@@ -72,10 +63,27 @@ public class TaskRepository {
                 task.setDone(resultSet.getBoolean("done"));
 
                 tasks.add(task);
-
             }
         }
+
         return tasks;
     }
-
 }
+
+//        public List<Task> getTasks () throws SQLException {
+//            String sql = "SELECT id, description, deadline, done FROM task ";
+//
+//            List<Task> tasks = new ArrayList<>();
+//            try (Statement statement = DatabaseConfiguration.getConnection().createStatement()) {
+//                ResultSet resultSet = statement.executeQuery(sql);
+//                while (resultSet.next()) {
+//                    Task task = new Task();
+//                    task.setId(resultSet.getLong("id"));
+//                    task.setDescription(resultSet.getString("description"));
+//                    task.setDeadline(resultSet.getDate("deadline").toLocalDate());
+//                    task.setDone(resultSet.getBoolean("done"));
+//
+//                    tasks.add(task);
+//
+//                }
+//            }

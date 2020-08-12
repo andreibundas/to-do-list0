@@ -2,6 +2,7 @@ package org.fasttrackit;
 
 import org.fasttrackit.persistence.TaskRepository;
 import org.fasttrackit.transfer.CreateTaskRequest;
+import org.fasttrackit.transfer.UpdateTaskRequest;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -25,11 +26,13 @@ public class App
 //        taskRepository.createTask(request);
 
 
-//        taskRepository.deleteTask(2);
+//        taskRepository.deleteTask(1);
+//
+//        System.out.println(taskRepository.getTasks());
 
-//          taskRepository.updateTask();
-
-        System.out.println(taskRepository.getTasks());
+        UpdateTaskRequest request2 = new UpdateTaskRequest();
+        request2.setDone(false);
+        taskRepository.updateTask(3, request2);
 
 
     }
