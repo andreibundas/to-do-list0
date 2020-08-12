@@ -69,20 +69,4 @@ public class TaskRepository {
     }
 }
 
-//        public List<Task> getTasks () throws SQLException {
-//            String sql = "SELECT id, description, deadline, done FROM task ";
-//
-//            List<Task> tasks = new ArrayList<>();
-//            try (Statement statement = DatabaseConfiguration.getConnection().createStatement()) {
-//                ResultSet resultSet = statement.executeQuery(sql);
-//                while (resultSet.next()) {
-//                    Task task = new Task();
-//                    task.setId(resultSet.getLong("id"));
-//                    task.setDescription(resultSet.getString("description"));
-//                    task.setDeadline(resultSet.getDate("deadline").toLocalDate());
-//                    task.setDone(resultSet.getBoolean("done"));
-//
-//                    tasks.add(task);
-//
-//                }
-//            }
+

@@ -30,9 +30,11 @@ public class App
 //
 //        System.out.println(taskRepository.getTasks());
 
-        UpdateTaskRequest request2 = new UpdateTaskRequest();
-        request2.setDone(false);
-        taskRepository.updateTask(3, request2);
+//        UpdateTaskRequest request2 = new UpdateTaskRequest();
+//        request2.setDone(true);
+//        taskRepository.updateTask(3, request2);
+
+        System.out.println(taskRepository.getTasks());
 
 
     }
