@@ -65,7 +65,6 @@ public class TaskRepository {
                 tasks.add(task);
             }
         }
-
         return tasks;
     }
 }
