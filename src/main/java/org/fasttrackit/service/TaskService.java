@@ -17,6 +17,7 @@ public class TaskService {
         taskRepository.createTask((request));
     }
 
+
     public List<Task> getTasks() throws SQLException {
         System.out.println("Retriving tasks. ");
         return taskRepository.getTasks();
